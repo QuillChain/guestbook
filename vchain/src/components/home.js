@@ -9,28 +9,65 @@ import { async } from 'regenerator-runtime';
 
 const home = props => {
     const [promptList, changePromptList] = useState([]);
+    const [companyList, changeCompanyList] = useState([]);
     useEffect(() => {
         const getPrompts = async () => {
             changePromptList(await window.contract.getAllPrompt());
             console.log(await window.contract.getAllPrompt());
         };
         getPrompts();
-    },[])
 
-    // const promptList = [
-    //     "Who would win in Smash bros?",
-    //     "Who is the better actor?",
-    //   ];
+        const getCompanys = async () => {
+            changeCompanyList(await window.contract.getAllCompany());
+            console.log(await window.contract.getAllCompany());
+        };
+        getCompanys();
+    }, [])
+
+
     return (
         <Container>
-            <h2>Vote Blockchain:</h2>
+            <h2>Reviews Company Blockchain:</h2>
             <hr></hr>
-            <Table striped bordered hover size="sm">
+            <Table variant="warning" striped bordered hover size="sm" >
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>List Polls</th>
-                        <th>Go To Poll</th>
+                        <th>List Company</th>
+                        <th  className="text-center">Go To Company Reviews</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {companyList.map((el, index) => {
+                        return (
+                            <tr key={index}>
+                                <td >
+                                    {index + 1}
+                                </td>
+                                <td >
+                                    {el}
+                                </td>
+                                <td  className="text-center" >
+                                    {" "}
+                                    <Button variant="primary" onClick={() => props.changeCompany(el)} >Go to Review</Button>
+                                </td>
+
+
+                            </tr>
+                        );
+
+                    })}
+
+                </tbody>
+            </Table>
+            <h2>Polling Blockchain:</h2>
+            <hr></hr>
+            <Table variant="success" striped bordered hover size="sm" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th  >List Polls</th>
+                        <th  className="text-center">Go To Polling Station</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +82,7 @@ const home = props => {
                                 </td>
                                 <td className="text-center" >
                                     {" "}
-                                    <Button variant="primary" onClick = {() => props.changeCandidates(el)} >Go to Poll</Button>
+                                    <Button variant="primary" onClick={() => props.changeCandidates(el)} >Go to Poll</Button>
                                 </td>
 
 

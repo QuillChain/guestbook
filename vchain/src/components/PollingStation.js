@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { async } from 'regenerator-runtime';
+import { MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBBtn } from 'mdb-react-ui-kit';
+
 
 const PollingStation = props => {
     const [candidate1Url, changeCandidate1Url] = useState('https://cutewallpaper.org/21/loading-gif-transparent-background/Bee-Hollow-Farm-beekeeping-classes-and-events-near-Schodack-.gif')
@@ -9,6 +11,7 @@ const PollingStation = props => {
     const [showresults, changeResultsDisplay] = useState(false);
     const [candidate1Votes, changeVote1] = useState('--');
     const [candidate2Votes, changeVote2] = useState('--');
+    const [promptTitle, changePrompt] = useState('--');
     useEffect(() => {
 
         const getInfo = async () => {
@@ -24,6 +27,11 @@ const PollingStation = props => {
             )
             changeCandidate2Url(
                 await window.contract.getUrl({ name: localStorage.getItem("Candidate2") })
+            )
+
+            //prompt title stuff
+            changePrompt(
+                localStorage.getItem("prompt")
             )
 
             //vote checking stuff
@@ -50,70 +58,73 @@ const PollingStation = props => {
 
     return (
         <Container>
-            <Row>
-                <Col className='jutify-content-center d-flex'>
+
+           
+            <Row style={{ marginTop: "5vh" }} >
+
+                <Col sm className='jutify-content-center d-flex' style={{ marginTop: "5vh" }}>
                     <Container>
-                        <Row style={{ marginTop: "5vh", backgroundColor: '#c4c4c4' }}>
-                            <div style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                paddding: "3vw",
-                            }} >
-                                <img style={{ height: '35vh', width: '20vw ' }}
-                                    src={candidate1Url}
-                                >
-                                </img>
-                            </div>
+                        <Row >
+                            <MDBCard style={{ maxWidth: '22rem' }}>
+                                <MDBCardImage style={{ marginTop: "5vh" }} src={candidate1Url} position='top' alt='...' />
+                                <MDBCardBody>
+
+                                    {showresults ? (
+                                        <Row className="justify-content-center d-flex" style={{ marginTop: "5vh" }}>
+                                            <div style={{ display: "flex", justifyContent: "center", fontSize: "8vw", padding: "10px", backgroundColor: "#c4c4c4" }}>
+                                            {candidate1Votes}</div>
+                                        </Row>) : null}
+
+
+                                    <Row style={{ marginTop: "5vh" }} className="justify-content-center d-flex" >
+
+                                        <MDBBtn className="" disabled={showresults} onClick={() => addVote(0)} >Vote</MDBBtn>
+                                    </Row>
+
+                                </MDBCardBody>
+                            </MDBCard>
                         </Row>
-
-                        {showresults ? (
-                            <Row className="justify-content-center d-flex" style={{ marginTop: "5vh" }}>
-                                <div style={{ display: "flex", justifyContent: "center", fontSize: "8vw", padding: "10px", backgroundColor: "#c4c4c4" }}>
-                                    {candidate1Votes}</div>
-                            </Row>) : null}
-
-                        <Row style={{ marginTop: "5vh" }} className="justify-content-center d-flex" >
-                            <Button disabled={showresults} onClick={() => addVote(0)}>Vote</Button>
-                        </Row>
-
                     </Container>
                 </Col>
 
-                <Col className="justify-content-center d-flex align-items-center">
-                    <div style={{
-                        display: "flex", justifyContent: "center",
-                        height: "20vh", padding: "2vw",
-                        textAlign: "center", backgroundColor: "#c4c4c4"
-                    }}>
-                        Who will be the next President?
-                    </div>
+                <Col sm className="justify-content-center d-flex align-items-center" style={{ marginTop: "5vh" }}>
+
+                    <MDBCard style={{ maxWidth: '22rem' }}>
+                        <MDBCardImage src="https://static.wikia.nocookie.net/roosterteeth/images/f/ff/VS_logo.png" position='top' alt='...' />
+                        <MDBCardBody>
+                            <MDBCardTitle className="text-center">{promptTitle}</MDBCardTitle>
+                            {/* <MDBCardText className="text-center">
+                            {promptTitle}
+                            </MDBCardText> */}
+                        </MDBCardBody>
+                    </MDBCard>
 
                 </Col>
 
 
-                <Col className='jutify-content-center d-flex'>
+                <Col sm className='jutify-content-center d-flex' style={{ marginTop: "5vh" }}>
                     <Container>
-                        <Row style={{ marginTop: "5vh", backgroundColor: '#c4c4c4' }}>
-                            <div style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                paddding: "3vw",
-                            }} >
-                                <img style={{ height: '35vh', width: '20vw ' }}
-                                    src={candidate2Url}
-                                >
-                                </img>
-                            </div>
-                        </Row>
 
-                        {showresults ? (
-                            <Row className="justify-content-center d-flex" style={{ marginTop: "5vh" }}>
-                                <div style={{ display: "flex", justifyContent: "center", fontSize: "8vw", padding: "10px", backgroundColor: "#c4c4c4" }}>
-                                    {candidate2Votes}   </div>
-                            </Row>) : null}
 
-                        <Row style={{ marginTop: "5vh" }} className="justify-content-center d-flex" >
-                            <Button disabled={showresults} onClick={() => addVote(1)} >Vote</Button>
+                        <Row>
+                            <MDBCard style={{ maxWidth: '22rem' }}>
+                                <MDBCardImage style={{ marginTop: "5vh" }} src={candidate2Url} position='top' alt='...' />
+                                <MDBCardBody>
+
+                                    {showresults ? (
+                                        <Row className="justify-content-center d-flex" style={{ marginTop: "5vh" }}>
+                                            <div style={{ display: "flex", justifyContent: "center", fontSize: "8vw", padding: "10px", backgroundColor: "#c4c4c4" }}>
+                                            {candidate2Votes}</div>
+                                        </Row>) : null}
+
+
+                                    <Row style={{ marginTop: "5vh" }} className="justify-content-center d-flex" >
+
+                                        <MDBBtn className="" disabled={showresults} onClick={() => addVote(1)} >Vote</MDBBtn>
+                                    </Row>
+
+                                </MDBCardBody>
+                            </MDBCard>
                         </Row>
 
                     </Container>
